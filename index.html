@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Leeshe's Cosmetics</title>
+        <link rel="icon" type="img" href="images/fav.png">
+        <link rel="stylesheet" type="text/css" href="styles.css">
+    </head>
+    <body>
+        
+            <header>
+                <img class="logo" src="images/logo1.png" alt="logo"/>
+                <nav>
+                    <ul class="nav-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="#" onclick="scrollToSection('feature'); return false;">Shop</a></li>
+                        <li><a href="#" onclick="scrollToSection('about'); return false;">About</a></li>
+                        <li><a href="#" onclick="scrollToSection('footer'); return false;">Contact</a></li>
+
+                    </ul>
+                </nav>
+                <ul class="navlinks">
+                    <div class="cart-icon">
+                        <img src="svg/cart.svg" id="cartButton" class="icon" alt="Cart">
+                    </div>
+                    <li><a href="#"><img class="icon" src="svg/profile.svg" alt="profile"></a></li>
+                </ul> 
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                </header>
+                <div id="cartOverlay" class="cart-overlay">
+                    <div class="cart-content">
+                        <span class="close-cart">&times;</span>
+                        <h2>Your Cart</h2>
+                        <div id="cartItems"></div>
+                        <button id="checkoutButton">Checkout</button>
+                    </div>
+                </div>
+            <!-- Checkout Modal -->
+            <div id="checkoutModal" class="checkout-modal">
+                <div class="checkout-content">
+                    <span class="close-checkout">&times;</span>
+                    <h2>Checkout</h2>
+                    <div class="checkout-steps">
+                        <!-- Shipping Address Step -->
+                        <div class="checkout-step active" id="addressStep">
+                            <h3>Shipping Information</h3>
+                            <form id="shippingForm">
+                                <input type="text" id="fullName" placeholder="Full Name" required>
+                                <input type="text" id="address" placeholder="Street Address" required>
+                                <input type="text" id="city" placeholder="City" required>
+                                <input type="text" id="state" placeholder="State" required>
+                                <input type="text" id="zipCode" placeholder="Zip Code" required>
+                                <input type="text" id="country" placeholder="Country" required>
+                                <input type="tel" id="phone" placeholder="Phone Number" required>
+                                <button type="button" class="next-btn">Continue to Payment</button>
+                            </form>
+                        </div>
+                        
+                        <!-- Payment Step -->
+                        <div class="checkout-step" id="paymentStep">
+                            <h3>Payment Method</h3>
+                            <div class="payment-options">
+                                <div class="payment-option">
+                                    <input type="radio" id="creditCard" name="payment" value="credit" checked>
+                                    <label for="creditCard">Credit/Debit Card</label>
+                                </div>
+                                <div class="payment-option">
+                                    <input type="radio" id="paypal" name="payment" value="paypal">
+                                    <label for="paypal">PayPal</label>
+                                </div>
+                                <div class="payment-option">
+                                    <input type="radio" id="cod" name="payment" value="cod">
+                                    <label for="cod">Cash on Delivery</label>
+                                </div>
+                            </div>
+                            
+                            <!-- Credit Card Form (shown when credit card is selected) -->
+                            <div class="credit-card-form" id="creditCardForm">
+                                <input type="text" id="cardNumber" placeholder="Card Number" maxlength="16">
+                                <div class="card-details">
+                                    <input type="text" id="expiryDate" placeholder="MM/YY" maxlength="5">
+                                    <input type="text" id="cvv" placeholder="CVV" maxlength="3">
+                                </div>
+                                <input type="text" id="cardName" placeholder="Name on Card">
+                            </div>
+                            
+                            <div class="checkout-buttons">
+                                <button type="button" class="back-btn">Back</button>
+                                <button type="button" id="placeOrderBtn">Place Order</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Order Confirmation Step -->
+                        <div class="checkout-step" id="confirmationStep">
+                            <div class="order-success">
+                                <img src="svg/greentick.svg" alt="Success" width="100">
+                                <h3>Order Placed Successfully!</h3>
+                                <p>Thank you for your purchase. Your order has been confirmed.</p>
+                                <p>Order ID: <span id="orderId"></span></p>
+                                <button type="button" id="continueShoppingBtn">Continue Shopping</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="profileOverlay" class="profile-overlay">
+                <div class="profile-content">
+                    <span class="close-profile">&times;</span>
+                    <h2>User Profile</h2>
+                    <div id="profileInfo" style="display: none;">
+                        <p>Welcome, <span id="userName"></span>!</p>
+                        <button id="logoutButton">Logout</button>
+                    </div>
+                    <div id="loginForm">
+                        <h3>Login</h3>
+                        <form id="login">
+                            <input type="email" id="loginEmail" placeholder="Email" required>
+                            <input type="password" id="loginPassword" placeholder="Password" required>
+                            <button type="submit">Login</button>
+                        </form>
+                        <p>Don't have an account? <a href="#" id="showSignup">Sign up</a></p>
+                    </div>
+                    <div id="signupForm" style="display: none;">
+                        <h3>Sign Up</h3>
+                        <form id="signup">
+                            <input type="text" id="signupName" placeholder="Full Name" required>
+                            <input type="email" id="signupEmail" placeholder="Email" required>
+                            <input type="password" id="signupPassword" placeholder="Password" required>
+                            <button type="submit">Sign Up</button>
+                        </form>
+                        <p>Already have an account? <a href="#" id="showLogin">Login</a></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="home" class="intro">
+                <h1>Forever Beautiful</h1>
+                <h3>Be You Be Young</h3>
+            </div>
+
+            <div id="feature">
+                <div onclick="scrollToSection('skincare'); return false;"  class="fe-box">
+                    <img src="images/feature1.jpg" alt="feature1">
+                    <h4>Skin Care</h4>
+                </div>
+                <div onclick="scrollToSection('lips'); return false;"  class="fe-box">
+                    <img src="images/feature2.jpg" alt="feature1">
+                    <h4>Lips</h4>
+                </div>
+                <div onclick="scrollToSection('hair'); return false;"  class="fe-box">
+                    <img src="images/feature3.jpg" alt="feature1">
+                    <h4>Hair</h4>
+                </div>
+                <div onclick="scrollToSection('eye'); return false;"  class="fe-box">
+                    <img src="images/feature4.jpg" alt="feature1">
+                    <h4>Eye</h4>
+                </div>
+                <div onclick="scrollToSection('makeup'); return false;"  class="fe-box">
+                    <img src="images/feature5.jpg" alt="feature1">
+                    <h4>Face</h4>
+                </div>
+                <div onclick="scrollToSection('fragrance'); return false;"  class="fe-box">
+                    <img src="images/feature6.jpg" alt="feature1">
+                    <h4>Fragrance</h4>
+                </div>
+            </div>
+            <div id="about">
+                <div>
+                    <img src="images/about.png" alt="about">
+                </div>
+                <div class="about-text">
+                    <h2>About Us</h2>
+                    <p>Leeshe's Cosmetics is a beauty brand that offers a wide range of beauty products. We are dedicated to providing the best quality products to our customers.</p>
+                    <p> Our products are made from natural ingredients that are safe for the skin. We believe that everyone deserves to look and feel beautiful.</p>
+                    <p> Our products are designed to enhance your natural beauty and make you feel confident. We are committed to providing the best customer service and ensuring that our customers are satisfied with their purchase.</p>
+                    <p> We are constantly innovating and creating new products to meet the needs of our customers. We are passionate about beauty and are dedicated to helping you look and feel your best.</p>
+                </div>
+            </div>
+	    <div id="skincare" class="product1">
+        <h1>Skin Care</h1>
+        <p>Curated For You</p>
+        <div class="pro-container">
+            <div class="pro">
+                <img src="images/s1.png" alt="suit1">
+                <div class="des">
+                    <span>Mamaearth</span>
+                    <h5>Face Wash</h5>
+		    <h2>Mamaearth Ubtan Natural Face Wash for All Skin Type with Turmeric & Saffron for Tan removal and Skin brightning 100 ml - SLS & Paraben Free</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹299.00</p>
+                    <a href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/s2.png" alt="suit1">
+                <div class="des">
+                    <span>Foxtale</span>
+                    <h5>D-Tan Pack</h5>
+		    <h2>Foxtale De-Tan Face Mask for Glowing Skin| Clay Mask with Lactic Acid for Tan Removal, Reduction in Blackheads, Instant Brightening| New-Age Ubtan Face Pack for All Skin Types | Men & Women- 75g</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹579.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/s3.png" alt="suit1">
+                <div class="des">
+                    <span>WILDGLOW</span>
+                    <h5>Facial Mask</h5>
+		    <h2>WILDGLOW 7in1 Red Wine Gel Face Mask for Glowing Skin, De-Tan, Open Pores Tightening & Dark Spots Removal | 2% Kojic Acid & Real Wine Extract | For Women & Men | All Skin Type | 50gm</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹449.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/s4.png" alt="suit1">
+                <div class="des">
+                    <span>Lakme</span>
+                    <h5>Sheet Mask</h5>
+		    <h2>LAKME Blush & Glow Strawberry Sheet Mask, 25 ml</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹199.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/s5.png" alt="suit1">
+                <div class="des">
+                    <span>Cetaphil</span> 
+		    <h5>Facial Cleanser</h5>
+                    <h2>Cetaphil Paraben, Sulphate-Free Gentle Skin Hydrating Face Wash Cleanser with Niacinamide, Vitamin B5 for Dry to Normal, Sensitive Skin - 125 ml</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹259.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/s6.png" alt="suit1">
+                <div class="des">
+                    <span>Lakme</span>
+		    <h5>Moisturizer</h5>
+                    <h2>LAKME Peach Milk Face Moisturizer 120 Ml, Daily Lightweight Lotion With Vitamin C & Vitamin E For Soft Glowing Skin - Non Oily 24H Moisture</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹499.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/s7.png" alt="suit1">
+                <div class="des">
+                    <span>Dot & Key</span>
+		    <h5>Sunscreen</h5>
+                    <h2>Dot & Key Watermelon Cooling Sunscreen SPF 50+ PA++++ | With Hyaluronic Acid, Instantly Cools Skin, Broad Spectrum Protection | Controls Excess Oil, Checks Tanning, No White Cast, All Skin Types | 50g</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹1499.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/s8.png" alt="suit1">
+                <div class="des">
+                    <span>Himalaya</span>
+		    <h5>Night Cream</h5>
+                    <h2>Himalaya Revitalizing Night Cream with white lily | Renews, repairs & hydrates skin overnight | rich in AHA & Anti-oxidants | Derma-tested | Paraben Free | Suitable for Dry to combination skin| 50g</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹1699.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+        </div>    
+    </div>
+    <div id="lips" class="product1">
+        <h1>Lips</h1>
+        <p>With At Most Comfort</p>
+        <div class="pro-container">
+            <div class="pro">
+                <img src="images/l1.png" alt="suit1">
+                <div class="des">
+                    <span>MAC</span>
+                    <h5>MAC Moisture Matte Longstay Mini Lipstick</h5>
+		    <h2>With Avocado Oil & Vitamin E for 12 Hour Long Stay-07 Raspberry Scarlet - 0.7 g</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹3999.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/l2.png" alt="suit1">
+                <div class="des">
+                    <span>Kay</span>
+                    <h5>Kay Forever Matte Lipstick</h5>
+		    <h2> Made With French Rose Oil Extracts, Nude Toast, 4.5G</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹2569.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/l3.png" alt="suit1">
+                <div class="des">
+                    <span>Mars</span>
+                    <h5>Mars Cosmetics Matte Attack Lipstick for Women</h5>
+		    <h2>Transferproof & Smudgeproof | Lasts upto 12hrs | Enriched With Jojoba Oil | 2gm - Maroon Vibe</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹3699.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/l4.png" alt="suit1">
+                <div class="des">
+                    <span>Kay Beauty</span>
+                    <h5>Kay Beauty Madness Ph Lipstick</h5>
+		    <h2>3gm - Nude Lipstick With Glossy Pink Payoff - Long Lasting Nourishment, Enriched With Vitamin E & Jojoba Oil - Vegan & Paraben Free-0.8g</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹6579.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/l5.png" alt="suit1">
+                <div class="des">
+                    <span>Lakme</span>
+                    <h5>Lakme Stay Forever Matte Liquid Lipstick</h5>
+		    <h2> Transfer-Proof, Smudge-Proof, Long Lasting, Infused with Vitamin E & Jojoba Oil - Perfect for Gifting, Wedding & Special Occasions-4.5g</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹3999.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/l6.png" alt="suit1">
+                <div class="des">
+                    <span>INSIGHT</span>
+                    <h5>24 Hours Long Hydrating Matte Lip Liner</h5>
+		    <h2>INSIGHT Cosmetics Glide On Matte Lip Liner | One Swipe Smooth Application | Long Lasting Lip Pencil,0.3 gm</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹1599.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/l7.png" alt="suit1">
+                <div class="des">
+                    <span>Hya Matte</span>
+                    <h5>Hya Matte Stay Forever Matte Liquid Lipstick</h5>
+		    <h2>Transfer-Proof, Smudge-Proof, Long Lasting, Infused with Vitamin E & Jojoba Oil - Perfect for Gifting, Wedding & Special Occasions-2.5g</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹2789.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/l8.png" alt="suit1">
+                <div class="des">
+                    <span>Earth Rythm</span>
+                    <h5>Earth Rythm Natural Lip Love</h5>
+		    <h2>Lip & Cheek Tint Pretty Pink-0.7g</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹2569.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+        </div>    
+    </div>
+    <div id="hair" class="product1">
+        <h1>Hair Care</h1>
+        <p>Experience It</p>
+        <div class="pro-container">
+            <div class="pro">
+                <img src="images/h1.png" alt="suit1">
+                <div class="des">
+                    <span>Tresemme</span>
+                    <h5>Shampoo</h5>
+		    <h2>TRESEMME Keratin Smooth Shampoo 1000ml With Keratin Protein and Argan Oil | Salon-Like Smooth Hair | Up To 72H Frizz Control</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹599.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/h2.png" alt="suit1">
+                <div class="des">
+                    <span>Parachute</span>
+                    <h5>HairMask</h5>
+	            <h2>Pre-wash Nourishing Maks-250g</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹4569.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/h3.png" alt="suit1">
+                <div class="des">
+                    <span>Dove</span>
+                    <h5>Hair Conditioner</h5>
+		    <h2>Scalp + Hair Therapy-Restoring Conditioner-300ml</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹499.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/h4.png" alt="suit1">
+                <div class="des">
+                    <span>Parachute</span>
+                    <h5>Hair Oil</h5>
+		    <h2>Enriched coconut oil with rosemary extract-for long and thick hair-100ml</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹299.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/h5.png" alt="suit1">
+                <div class="des">
+                    <span>Banjaras</span>
+                    <h5>Haircare Powder</h5>
+		    <h2>Haircare Powder with Methi-makes hair Soft and Strong-200g</h2>                   		    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹299.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/h6.png" alt="suit1">
+                <div class="des">
+                    <span>Streax</span>
+                    <h5>Hair Serum</h5>
+		    <h2>Streax Hair Serum 115ml, Vitalized with Walnut Oil, For Hair Smoothening & Shine. Hair Serum for dry, frizzy hair for men and women</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹5789.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/h7.png" alt="suit1">
+                <div class="des">
+                    <span>Elpis Gold</span>
+                    <h5>Hair Spray</h5>
+		    <h2>Elpis Gold Enzo Premium Hair Spray| Curl Enhancing With Flexible Hold, Long Lasting, No Greasy Residue| All-Day Shine |Pure, Fresh And Beautiful |Odour Fregrance Strong | Suitable for All Hair Types | Weatherproof Styling Solution | 420ML| Pack Of 1</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹499.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/h8.png" alt="suit1">
+                <div class="des">
+                    <span>Loreal</span>
+                    <h5>Hair cream</h5>
+		    <h2>Hair cream with hyaluron moisture-Hydra Filling Night Cream-200ml</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹699.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+        </div>    
+    </div>
+    <div id="eye" class="product1">
+        <h1>Eye</h1>
+        <p>Feel The Sensation</p>
+        <div class="pro-container">
+            <div class="pro">
+                <img src="images/e1.png" alt="suit1">
+                <div class="des">
+                    <span>Swiss Beauty</span>
+		    <h5>Eyeshadow Palette</h5>
+                    <h2>Eyeshadow Palette-Ultimate 9 Pigmented Colors- Long Wearing And Easily Blendable Eye Makeup Palette Matte, Shimmery And Metallic Finish - Multicolor-02, 6G</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹2879.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/e2.png" alt="suit1">
+                <div class="des">
+                    <span>RENEE</span>
+		    <h5>Holographis Liquid Eyeliner</h5>
+                    <h2> Liquid Eyeliner - Macaw, Smudge-Proof & Long-Lasting, Easy Glide & Quick-Drying Formula with Monochrome Effect, Intense Color Pay-Off-10ml</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹1399.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/e3.png" alt="suit1">
+                <div class="des">
+                    <span>Lakme</span>
+		    <h5>Black Kajal</h5>
+                    <h2>Eyeconic Black Kajal, Matte Kohl Liner in a Twist Up Pencil - Waterproof, Smudge Proof & Long Lasting Eye Makeup, 0.35 g</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹999.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/e4.png" alt="suit1">
+                <div class="des">
+                    <span>Lakme</span>
+		    <h5>Volumizing Mascara</h5>
+                    <h2>Eyeconic Volumizing Mascara 8.5ml</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹9888.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/e5.png" alt="suit1">
+                <div class="des">
+                    <span>RENEE</span>
+		    <h5>Eye Cream</h5>
+                    <h2>Retinol Eye Cream, Targets Wrinkles & Dark Circles, Revitalizes, Nourishes & Smooths Under-Eye Area, Infused with Retinol, Hyaluronic Acid, and Vitamin E, Travel Friendly, for All Skin Type, 2.9gm</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹599.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/e6.png" alt="suit1">
+                <div class="des">
+                    <span>Biotique</span>
+		    <h5>Eye Gel</h5>
+                    <h2>Seaweed Revitalizing Anti Fatigue Eye Gel | Contains Wild Seaweed, Nutmeg, & Honey | Reduces Dark Circle and Puffiness | Suitable for All Skin Types | 15gm</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹699.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/e7.png" alt="suit1">
+                <div class="des">
+                    <span>RENEE</span>
+		    <h5>Eye Brush</h5>
+                    <h2>All In 1 Professional Makeup Brush Set of 6, Premium Easy To Hold & Precise Application For Face, Eyes & Brows | Cruelty Free & Uniquely Designed Super Soft Bristles For Unparalleled Precision</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹399.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/e8.png" alt="suit1">
+                <div class="des">
+                    <span>CALAILIS</span>
+		    <h5>Eye Lashes</h5>
+                    <h2>False Eyelash, Eye Makeup Lash 3D Faux Mink Fake Eyelash Long Natural Eyelashes 3 Pairs with 5g False Eyelash Glue (CS01)</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹569.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+        </div>    
+    </div>
+    <div id="makeup" class="product1">
+        <h1>Face Makeup</h1>
+        <p>Finest Quality</p>
+        <div class="pro-container">
+            <div class="pro">
+                <img src="images/m1.png" alt="suit1">
+                <div class="des">
+                    <span>Maybelline New York</span>
+                    <h5>Liquid Foundation</h5>
+		    <h2>Matte Finish, With SPF, Absorbs Oil, Fit Me Matte + Poreless, 220 Natural Beige, 30ml</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹599.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/m2.png" alt="suit1">
+                <div class="des">
+                    <span>Maybelline New York</span>
+                    <h5>Full Coverage Concealer</h5>
+		    <h2>Matte & Poreless Ultra Blendable, Fit Me, 25 Medium, 6.8ml</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹699.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/m3.png" alt="suit1">
+                <div class="des">
+                    <span>FACESCANADA</span>
+		    <h5>Compact Powder</h5>
+                    <h2>Weightless Stay Matte Finish Compact Powder - Natural, 9g | Non Oily Matte Look | Evens Out Complexion | Hides Imperfections | Blends Effortlessly | Pressed Powder For All Skin Types</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹799.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/m4.png" alt="suit1">
+                <div class="des">
+                    <span>Maybelline New York</span>
+                    <h5> Primer</h5>
+		    <h2>Reduces Appearance of Pores, Long-lasting, Fit Me Dewy + Smooth Finish, Duo Pack, 30g</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹399.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/m5.png" alt="suit1">
+                <div class="des">
+                    <span>Swiss Beauty</span>
+		    <h5>Blush</h5>
+                    <h2>Cheek It Up |Blush for Cheeks|Lumi-Matte Finish | Lightweight | Easily Blendable | With Jojoba Oil | Shade- Chic Me Up, 8g</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹399.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/m6.png" alt="suit1">
+                <div class="des">
+                    <span>COLORESSENCE</span>
+		    <h5>Matte Bronzer</h5>
+                    <h2>Matte Bronzer Contour Powder Natural Highlighter for Face Sculpting Sun Kissed Look | Oil Control & Waterproof | Creamy & Ultra Fine Texture, 10 gm</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹299.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/m7.png" alt="suit1">
+                <div class="des">
+                    <span>Swiss Beauty</span>
+		    <h5>Highlighter</h5>
+                    <h2>Drop & Glow Liquid Highlighter For Face Makeup | Illuminating Liquid Highlighter With Dewy Finish | Shade -Coppery, 18ml</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹499.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/m8.png" alt="suit1">
+                <div class="des">
+                    <span>Lakme</span>
+		    <h5>Face Cream</h5>
+                    <h2>9 To 5 Cc Cream Mini|| 01-Beige|| Light Face Makeup With Natural Coverage For All Skin|| Spf 30-Tinted Moisturizer To Brighten Skin|| Conceal Dark Spots|| 9 G,1 Count-50g</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹399.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+        </div>    
+    </div>
+    <div id="fragrance" class="product1">
+        <h1>Fragrance</h1>
+        <p>Get Eyes On You</p>
+        <div class="pro-container">
+            <div class="pro">
+                <img src="images/f1.png" alt="suit1">
+                <div class="des">
+                    <span>NIVEA Pearl and Beauty</span>
+		    <h5>Deo Roll On</h5>
+                    <h2>50ml Deo Roll On | With Pearl Extracts & Avocado Oil| 72 H Smooth & Beautiful Underarms | 0% Alcohol | For Women</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹299.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/f2.png" alt="suit1">
+                <div class="des">
+                    <span>Layerr Wottagirl</span>
+		    <h5>Body Spray</h5>
+                    <h2>Vanilla Twist Body Splash Spray For Women, 135ml</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹399.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/f3.png" alt="suit1">
+                <div class="des">
+                    <span>Bella Vita</span>
+		    <h5>Perfume</h5>
+                    <h2>Luxury Woman Eau De Perfume Gift Set 4x20 ml for Women with Date, Senorita, Glam, Rose Perfume|Floral, Fruity Long Lasting EDP Fragrance Scent</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹899.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/f4.png" alt="suit1">
+                <div class="des">
+                    <span>RENEE</span>
+		    <h5>Body Scent</h5>
+                    <h2>Eau De Perfume Bloom 15ml| Premium Long Lasting Luxury Perfume, Liquid | Notes Of Almond | Scent For All Occasions, Unisex Adult</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹299.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/f5.png" alt="suit1">
+                <div class="des">
+                    <span>Dove</span>
+		    <h5>Body Scrub</h5>
+                    <h2>Body Polish Exfoliating Scrub, Moisturizing Shea Butter and Pomegranate Seeds | Nourishes & Conditions Soft Skin | Sulphate Free, 298gm</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹499.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/f6.png" alt="suit1">
+                <div class="des">
+                    <span>Vaseline</span>
+		    <h5>Body Lotion</h5>
+                    <h2>Cocoa Glow Serum In Lotion, 400 ml | 100% Pure Cocoa & Shea Butter</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹399.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/f7.png" alt="suit1">
+                <div class="des">
+                    <span>Lakme</span>
+		    <h5>Body Moisturizer</h5>
+                    <h2>Peach Milk Vit E Gel Moisturizer, Lightweight Gel to Hydrate Skin | With Vitamin E -200gm</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹589.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+            <div class="pro">
+                <img src="images/f8.png" alt="suit1">
+                <div class="des">
+                    <span>Lakme</span>
+		    <h5>Body Serum</h5>
+                    <h2>8% Aha-Bha-Pha+ Complex Lumi Smooth Serum For Luminous Skin & Improved, Smooth Skin Texture, 15ml</h2>
+                    <div class="star">
+                        <ul>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                            <li><img src="svg/star.svg" alt="star"></li>
+                        </ul>
+                    </div>
+                    <p>Price: ₹699.00</p>
+                    <a  href="#" class="cart"><img src="svg/addcart.svg" alt="addcart"></a>
+                </div>
+            </div>
+        </div>    
+    </div>
+    <div id="footer">
+        <div class="col">
+            <img style="width:300px;height:200px" class="logo" src="images/logo.png" alt="logo">
+            <h4>Contact</h4>
+            <address>
+                <p>Address: 37/1 Vallal RCK Nagar, Vengal, Chennai-601103, India</p>
+                <p>Phone: +91 1234567890</p>
+                <p>Email: suport@leeshescosmetics.com</p>
+            </address>
+            <div class="follow" id="align">
+                <h4>Follow Us</h4>
+                <ul>
+                    <li><a href="https://www.facebook.com/" target="_blank"><img src="svg/facebook.svg" alt="facebook"></a></li>
+                    <li><a href="https://www.instagram.com/" target="_blank"><img src="svg/instagram.svg" alt="instagram"></a></li>
+                    <li><a href="https://x.com/?lang=en-in" target="_blank"><img src="svg/twitter.svg" alt="twitter"></a></li>
+                    <li><a href="https://in.linkedin.com/" target="_blank"><img src="svg/linkedin.svg" alt="linkedin"></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col">
+            <h4>Information</h4>
+            <ul>
+                <li><a href="">About Us</a></li>
+                <li><a href="">Privacy Policy</a></li>
+                <li><a href="">Terms & Conditions</a></li>
+                <li><a href="">Contact Us</a></li>
+            </ul>
+        </div>
+        
+        <div class="col">
+            <h4>Install Apps</h4>
+            <ul class="row">
+                <li><a href="https://play.google.com/store/apps" target="_blank"><img src="svg/playstore.svg" alt="playstore"></a></li>
+                <li><a href="https://www.apple.com/app-store/" target="_blank"><img src="svg/appstore.svg" alt="appstore"></a></li>
+            </ul>
+            <p>Secured Payment Gateway</p>
+            <img style="width:200px;height:50px;" src="images/payment.png" alt="payment">
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 Leeshe's Cosmetics. All Rights Reserved.</p>
+        </div>
+    </div>
+    <div id="aboutModal" class="footer-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>About Us</h2>
+            <div class="modal-body">
+                <p>Leeshe's Cosmetics is a beauty brand that offers a wide range of beauty products. We are dedicated to providing the best quality products to our customers.</p>
+                <p>Our products are made from natural ingredients that are safe for the skin. We believe that everyone deserves to look and feel beautiful.</p>
+                <p>Our products are designed to enhance your natural beauty and make you feel confident. We are committed to providing the best customer service and ensuring that our customers are satisfied with their purchase.</p>
+                <p>We are constantly innovating and creating new products to meet the needs of our customers. We are passionate about beauty and are dedicated to helping you look and feel your best.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="privacyModal" class="footer-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Privacy Policy</h2>
+            <div class="modal-body">
+                <h3>Information We Collect</h3>
+                <p>We collect personal information you provide when you create an account, make a purchase, or contact us. This may include your name, email address, shipping address, and payment information.</p>
+                
+                <h3>How We Use Your Information</h3>
+                <p>We use your information to process orders, improve our services, and communicate with you about products and promotions.</p>
+                
+                <h3>Data Security</h3>
+                <p>We implement security measures to protect your personal information. However, no method of transmission over the Internet is 100% secure.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="termsModal" class="footer-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Terms & Conditions</h2>
+            <div class="modal-body">
+                <h3>Orders</h3>
+                <p>All orders are subject to product availability. We reserve the right to limit quantities and to refuse service to anyone.</p>
+                
+                <h3>Pricing</h3>
+                <p>Prices are subject to change without notice. We are not responsible for typographical errors.</p>
+                
+                <h3>Returns</h3>
+                <p>Unopened products may be returned within 30 days of purchase for a full refund. Please contact customer service for return instructions.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="contactModal" class="footer-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Contact Us</h2>
+            <div class="modal-body">
+                <h3>Customer Service</h3>
+                <p>Email: support@leeshescosmetics.com</p>
+                <p>Phone: +91 1234567890</p>
+                <p>Hours: Sunday-Saturday, 24/7</p>
+                
+                <h3>Corporate Office</h3>
+                <p>337/1 Vallal RCK Nagar, Vengal, Chennai-601103, India</p>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+    </body>
+</html>
